@@ -11,10 +11,10 @@ API_SECRET = os.getenv("BINANCE_API_SECRET")
 LEVERAGE = 10
 CHECK_INTERVAL = 30
 
-# === الأزرار الثلاثة - تقدر تغيرها ===
-USE_ATR_STOP = True      # 1 = وقف ATR حقيقي
-SIGNAL_ONLY = True       # 2 = إشارة فقط (يحل 0.00$)
-USE_WEBHOOK = False      # 3 = Webhook بدل تيليجرام
+# === الأزرار الثلاثة ===
+USE_ATR_STOP = True
+SIGNAL_ONLY = True
+USE_WEBHOOK = False
 WEBHOOK_URL = os.getenv("WEBHOOK_URL", "")
 
 PROXIES_10 = ["http://51.158.68.133:8811","http://51.75.147.42:80","http://185.199.229.156:8080","http://163.172.182.164:80","http://51.158.123.35:8811","http://57.128.16.103:80","http://51.15.120.250:80","http://51.159.96.115:80","http://141.94.44.105:80","http://176.31.99.58:3128"]
@@ -203,8 +203,8 @@ for loop in range(10000):
                 if price>highest_tracker[sym]:
                     highest_tracker[sym]=price
                     atr_val=ind["atr"] if ind["atr"]>0 else price*0.02
+                    profit=(price-entry_tracker[sym])/entry_tracker[sym]
                     if USE_ATR_STOP:
-                        profit=(price-entry_tracker[sym])/entry_tracker[sym]
                         mult = 1.5 if profit<0.03 else 2.0 if profit<0.10 else 2.5
                         stop_tracker[sym]=highest_tracker[sym] - (atr_val*mult)
                     else:
