@@ -1,22 +1,24 @@
-name: sniper 10 Proxy + Chart + Futures
-
+name: sniper V6 ATR + Signal + Webhook
 on:
   workflow_dispatch:
-
+  schedule:
+    - cron: '0 */5 * * *'
 jobs:
   sniper:
     runs-on: ubuntu-latest
+    timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
       - name: Install
-        run: pip install requests ccxt matplotlib python-telegram-bot
+        run: pip install requests matplotlib
       - name: Run Bot
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
           BINANCE_API_KEY: ${{ secrets.BINANCE_API_KEY }}
           BINANCE_API_SECRET: ${{ secrets.BINANCE_API_SECRET }}
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
         run: python adenbot_final.py
